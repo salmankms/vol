@@ -32,4 +32,4 @@ Then open http://localhost:8777/.
 ## Notes
 
 - Fonts load from Google Fonts; the contact form is an embedded Studio Ninja iframe — both need network access.
-- SEO canonical/OG tags use `https://vowsoflove.in/` as the base — update if the production domain differs.
+- SEO canonical/OG tags use `https://www.vowsoflove.in/` as the base — update if the production domain differs.
