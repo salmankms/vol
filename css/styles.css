@@ -269,6 +269,30 @@ ul{list-style:none}
 .prose .item{padding:22px 0;border-bottom:1px solid rgba(145,111,67,.18)}
 .prose .item:last-child{border-bottom:0}
 .prose p + p{margin-top:22px}
+.prose h3{
+  font-family:var(--serif);font-weight:600;font-size:20px;line-height:1.4;color:var(--brown);
+  margin:20px 0 8px;
+}
+.prose ul{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:10px}
+.prose ul li{
+  font-family:var(--serif);font-weight:400;font-size:18px;line-height:1.6;color:var(--brown-80);
+  padding-left:18px;position:relative;
+}
+.prose ul li::before{content:"";position:absolute;left:0;top:.7em;width:6px;height:6px;border-radius:50%;background:var(--brown);opacity:.65}
+.prose ul.tags{grid-template-columns:repeat(2,max-content);column-gap:40px}
+.prose ul.tags li{padding-left:0}
+.prose ul.tags li::before{display:none}
+.prose .lead{font-style:italic;color:var(--brown)}
+.prose .tagline{margin-top:18px;font-family:var(--serif);font-weight:500;font-size:18px;letter-spacing:.12em;text-transform:uppercase;color:var(--brown)}
+.prose .values{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:20px}
+.prose .values > div{
+  background:#fffbf4;border:1px solid #ece0d0;border-radius:18px;padding:28px 24px;
+}
+.prose .values h3{margin-top:0}
+@media (max-width:700px){
+  .prose .values{grid-template-columns:1fr}
+  .prose ul.tags{grid-template-columns:1fr}
+}
 
 /* =========================================================
    Responsive

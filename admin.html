@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Blog Admin | Vows of Love</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#31200b" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,600&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/blog.css" />
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body style="background:#fff">
+
+<section class="login" id="loginView" hidden>
+  <h1>Blog admin</h1>
+  <div class="admin-msg" id="loginMsg" hidden></div>
+  <form id="loginForm">
+    <div class="field">
+      <label for="loginEmail">Email</label>
+      <input id="loginEmail" type="email" autocomplete="username" required />
+    </div>
+    <div class="field">
+      <label for="loginPassword">Password</label>
+      <input id="loginPassword" type="password" autocomplete="current-password" required />
+    </div>
+    <div class="actions">
+      <button class="btn btn--primary" type="submit">Log in</button>
+    </div>
+  </form>
+</section>
+
+<main class="admin" id="dashView" hidden>
+  <div class="admin__top">
+    <h1>Blog admin</h1>
+    <div>
+      <a href="blog.html">View blog</a>
+      <button class="btn" id="logoutBtn" type="button">Log out</button>
+    </div>
+  </div>
+
+  <div class="admin-msg" id="globalMsg" hidden></div>
+
+  <section class="admin__card">
+    <h2>Blog page header</h2>
+    <form id="settingsForm">
+      <div class="field">
+        <label for="setImage">Header image URL</label>
+        <input id="setImage" type="url" placeholder="https://…" />
+        <small>Paste a direct link to the image.</small>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="setHeading">Heading</label>
+          <input id="setHeading" type="text" />
+        </div>
+        <div class="field">
+          <label for="setDesc">Description</label>
+          <textarea id="setDesc"></textarea>
+        </div>
+      </div>
+      <div class="actions"><button class="btn btn--primary" type="submit">Save header</button></div>
+    </form>
+  </section>
+
+  <section class="admin__card">
+    <div class="admin__top">
+      <h2>Posts</h2>
+      <button class="btn btn--primary" id="newPostBtn" type="button">New post</button>
+    </div>
+    <table class="post-table">
+      <thead>
+        <tr><th>Title</th><th>Status</th><th>Published</th><th></th></tr>
+      </thead>
+      <tbody id="postRows"></tbody>
+    </table>
+  </section>
+
+  <section class="admin__card" id="editorCard" hidden>
+    <div class="admin__top">
+      <h2 id="editorTitle">New post</h2>
+      <span class="status-line" id="fStatus"></span>
+    </div>
+    <div class="admin-msg" id="editorMsg" hidden></div>
+
+    <form id="postForm" novalidate>
+      <div class="row">
+        <div class="field">
+          <label for="fTitle">Heading</label>
+          <input id="fTitle" type="text" required />
+        </div>
+        <div class="field">
+          <label for="fSlug">URL slug</label>
+          <input id="fSlug" type="text" />
+          <small>Generated from the heading. Used in the post link.</small>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="fDesc">Description</label>
+        <textarea id="fDesc"></textarea>
+        <small>Shown on the blog listing (two lines).</small>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="fHero">Hero image URL</label>
+          <input id="fHero" type="url" placeholder="https://…" />
+          <small>Large image at the top of the post.</small>
+        </div>
+        <div class="field">
+          <label for="fThumb">Thumbnail image URL</label>
+          <input id="fThumb" type="url" placeholder="https://…" />
+          <small>Optional. Used on the listing. Falls back to the hero image.</small>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="fDate">Date &amp; time</label>
+        <input id="fDate" type="datetime-local" />
+        <small>Shown on the post. Leave empty to use the time you publish.</small>
+      </div>
+
+      <div class="field">
+        <label for="fBody">Body (HTML)</label>
+        <textarea id="fBody" class="code" placeholder="&lt;h2&gt;A heading&lt;/h2&gt;&#10;&lt;p&gt;Your story…&lt;/p&gt;"></textarea>
+        <small>Allowed: headings, paragraphs, lists, links, images, figures, blockquotes, bold and italics.</small>
+      </div>
+
+      <div class="field">
+        <label>Preview</label>
+        <div class="preview post__body" id="fPreview"></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="saveDraftBtn" type="button">Save as draft</button>
+        <button class="btn btn--primary" id="publishBtn" type="button">Publish</button>
+        <a class="btn" id="fView" target="_blank" rel="noopener" hidden>View post</a>
+        <span class="spacer"></span>
+        <button class="btn btn--danger" id="btnDelete" type="button" hidden>Delete</button>
+        <button class="btn" id="cancelBtn" type="button">Close</button>
+      </div>
+    </form>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
